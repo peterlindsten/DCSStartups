@@ -10,7 +10,7 @@ local	t_stop	= 0.0
 local	dt		= 0.15
 local 	msg_dt  = 0.01
 local	dt_mto	= 1.0
-local	t_align	= 1.5 * 60.0 - 31.0
+local	t_align	= 1.5 * 60.0 - 28.0
 local	start_sequence_time	= 145.0 + t_align
 local	stop_sequence_time	= 10.0	-- TODO: timeout
 
@@ -140,9 +140,6 @@ push_start_command(dt,		{device = devices.MDI_LEFT,				action = MDI_commands.MDI
 push_start_command(dt,		{device = devices.MDI_RIGHT,			action = MDI_commands.MDI_off_night_day,				value = 0.2})
 push_start_command(dt,		{device = devices.HUD,					action = HUD_commands.HUD_SymbBrightCtrl,				value = 0.85})
 push_start_command(dt,		{device = devices.UFC,					action = UFC_commands.BrtDim,							value = 0.85})
-for i = 0, 20, 1 do
-	push_start_command(0.01,	{device = devices.ID2163A,				action = id2163a_commands.ID2163A_SetMinAlt,			value = 0.05})
-end
 push_start_command(msg_dt,	{message = _("HMD SWITCH - ON"),																message_timeout = 1.0 + dt_mto})
 push_start_command(0.5, 	{										check_condition = F18_AD_HMD_BRT_KNOB})												 
 push_start_command(msg_dt,	{message = _("IFEI - CHECK"),																	message_timeout = dt_mto})
@@ -218,6 +215,10 @@ push_start_command(8.0,		{device = devices.CPT_MECHANICS,		action = cpt_commands
 push_start_command(msg_dt,	{message = _("HMD - ALIGN"),																	message_timeout = 1 + dt_mto})
 push_start_command(1.0, 	{										check_condition = F18_AD_HMD_ALIGN})
 --
+for i = 0, 20, 1 do
+	push_start_command(0.01,	{device = devices.ID2163A,				action = id2163a_commands.ID2163A_SetMinAlt,			value = 0.05})
+end
+--
 push_start_command(msg_dt,	{message = _("RWR - Power ON"),																	message_timeout = dt_mto})
 push_start_command(dt,		{device = devices.RWR, 					action = rwr_commands.Power, 							value = 1.0})
 push_start_command(msg_dt,	{message = _("Countermeasures - ON"),															message_timeout = dt_mto})
@@ -233,10 +234,14 @@ push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncS
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwIFF, 						value = 0.0})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 1.0})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 0.0})
-push_start_command(msg_dt,	{message = _("D/L - ON"),																		message_timeout = dt_mto})
+push_start_command(msg_dt,	{message = _("D/L - ON, Twice"),																		message_timeout = dt_mto})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwDL, 						value = 1.0})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwDL, 						value = 0.0})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 1.0})
+push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 0.0})
+push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwDL, 						value = 1.0})
+push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwDL, 						value = 0.0})
+push_start_command(1.0, 	{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 1.0})
 push_start_command(dt, 		{device = devices.UFC, 					action = UFC_commands.FuncSwOnOff, 						value = 0.0})
 push_start_command(msg_dt,	{message = _("MODE 4 - DIS/AUD"),																message_timeout = dt_mto})
 push_start_command(dt,		{device = devices.INTERCOM,				action = intercom_commands.IFF_Mode4Sw,					value = 1.0})
